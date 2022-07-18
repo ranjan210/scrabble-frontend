@@ -81,11 +81,11 @@ class Lobby extends React.Component {
             return (
                 <div className="center">
                     <div className="form-lobby">
-                        {this.state.createRoom && <div className="lobby-form">
+                        {this.state.createRoom && <div className="lobby-form-small">
                             <div className="row-logo">
 
                                 <div>
-                                    SCRABBLE
+                                    Scrabble
                                 </div>
                             </div>
                             <div className="lobby-input">
@@ -97,7 +97,7 @@ class Lobby extends React.Component {
                             <div className="row-logo">
 
                                 <div>
-                                    SCRABBLE
+                                    Scrabble
                                 </div>
                             </div>
                             <div className="lobby-input">

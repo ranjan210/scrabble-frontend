@@ -1,8 +1,11 @@
 import React from "react"
-import logo from "../assets/logo-redesign.png"
+import logo from "../assets/logo-redesign.png";
+import turnAudio from "../assets/turn_change_2.wav"
+import audio from "../assets/UI_Quirky20.mp3";
 import "./room_styles.css"
 import socket from "../services/socketService"
 import roomManager from "../services/roomCreationHandler"
+import { Link } from "react-router-dom";
 
 
 class Room extends React.Component {
@@ -16,7 +19,9 @@ class Room extends React.Component {
             inputDis: true,
             chats: [],
             currentMessage: "",
-            players: null
+            players: null,
+            turn: null,
+            isOverlay:false
         }
 
         this.updateInput = this.updateInput.bind(this)
@@ -26,9 +31,12 @@ class Room extends React.Component {
         this.checkInput = this.checkInput.bind(this)
         this.updateMessage = this.updateMessage.bind(this)
         this.sendMessage = this.sendMessage.bind(this)
+        this.switchOverlay = this.switchOverlay.bind(this)
     }
 
     componentDidMount() {
+        new Audio(audio).play();    
+
         this.configureSocket()
         roomManager.fetchBoard().then((res) => {
             if (res != "") {
@@ -37,20 +45,28 @@ class Room extends React.Component {
                     {
                         grid: res.grid,
                         players: res.players,
-                        submitGrid: res.submitGrid
+                        submitGrid: res.submitGrid,
+                        turn: res.turn
                     }
                 )
             }
+
 
         })
 
     }
 
+    switchOverlay(){
+        const currVal = this.state.isOverlay;
+        this.setState({
+            isOverlay:!currVal
+        })
+    }
+
     configureSocket() {
         console.log(window.roomId)
-        socket.on("updategrid", (pos, val, user, score) => {
+        socket.on("updategrid", (pos, val, user, score, turn) => {
             console.log("received input")
-
             let newArr = this.state.grid;
             let copyArr = this.state.submitGrid;
             let newPlayers = this.state.players;
@@ -65,11 +81,12 @@ class Room extends React.Component {
             console.log(newPlayers)
             newArr[pos] = val;
             copyArr[pos] = true;
-
+            new Audio(turnAudio).play();
             this.setState({
                 grid: newArr,
                 submitGrid: copyArr,
-                players: newPlayers
+                players: newPlayers,
+                turn: turn
             })
         })
 
@@ -138,7 +155,8 @@ class Room extends React.Component {
     sendInput(e) {
         if (e.keyCode == "13") {
             e.preventDefault();
-            socket.emit("updateGrid", window.roomId, e.target.value, e.target.id)
+            let lowerCase = e.target.value.toLowerCase();
+            socket.emit("updateGrid", window.roomId, lowerCase, e.target.id)
             let newArr = this.state.submitGrid
             newArr[e.target.id] = true
             this.setState({
@@ -198,8 +216,7 @@ class Room extends React.Component {
             chats = this.state.chats.map((elem, index) => {
                 return (
                     <div className="single-chat">
-                        <div className="usertext">{elem.username} : </div>
-                        <div className="text"> {elem.message} </div>
+                        <span className="usertext">{elem.username} :</span> {elem.message} 
                     </div>
                 )
             })
@@ -208,21 +225,45 @@ class Room extends React.Component {
 
         if (this.state.players != null) {
             scores = this.state.players.map((elem, index) => {
-                return (
-                    <div className="single-player">
-                        <div className="score-username">{elem.name}</div>
-                        <div className="score-score">{elem.score}</div>
+                if (index == this.state.turn) {
+                    return (
+                        <div className="current-player">
+                            <div className="score-username">{elem.name}</div>
+                            <div className="score-score">{elem.score}</div>
 
-                    </div>
+                        </div>
+                    )
+                }
+                else {
+                    return (
+                        <div className="single-player">
+                            <div className="score-username">{elem.name}</div>
+                            <div className="score-score">{elem.score}</div>
 
-                )
+                        </div>
+                    )
+                }
+
             })
         }
 
         return (
+
             <div className="room-center">
+                <button className="about" onClick={this.switchOverlay}>i</button>
+                {this.state.isOverlay&& <div className="overlay">
+                    <div className="overlay-list">
+                 <div className="heading">  Info <br></br> </div>
+                  <ul>
+                 <li>Players are supposed to enter letters one by one to form a word. </li> 
+                 <li>Score recieved in each round is the sum of max scores of words from both row and column. </li> 
+                 <li>Validity of words is based on the official Scrabble dictionary. </li> 
+                  </ul>
+                  Developed by <a href="https://ranjan210.github.io/" className="link" target="_blank">Ranjan</a>
+                    </div>
+                    </div>}
                 <div className="room-header">
-                    <div className="logo">Scrabble</div>
+                    <div className="logo"><Link to="/">Scrabble </Link></div>
                     <div className="turn">Room Code : {window.roomId}</div>
                 </div>
                 <div className="room-content">

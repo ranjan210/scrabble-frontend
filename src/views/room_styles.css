@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Sacramento&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@1,500&display=swap');
 
 .room-center {
   display: flex;
@@ -44,6 +45,10 @@
   align-content: center;
 }
 
+.logo:hover{
+  transform: scaleY(1.2);
+}
+
 .turn {
   margin-left: 2%;
   font-family: "Open Sans";
@@ -55,11 +60,70 @@
   text-align: center;
   height: 60%;
 }
+
+
+.about{
+  position: absolute;
+  right: 1%;
+  top:2%;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: #aa75ff;
+  border: none;
+  border-radius: 25px;
+  font-size: 20px;
+  font-family: 'Ibarra Real Nova', serif;
+  z-index: 3;
+
+}
+
+.overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #000000b6;
+  color:white;
+  z-index: 2;
+  font-size: 25px;
+}
+.overlay-list{
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 25%;
+  font-size: 20px;
+}
+
+.heading{
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+ul{
+  text-align: left;
+}
+
+.link{
+  color:#aa75ff!important;
+}
+
+.link:hover{
+  font-size: 22px;
+}
+
+
 .room-content {
   display: flex;
   flex-direction: row;
   height: 90%;
   width: 100%;
+  min-height:0;
 }
 
 .room-score {
@@ -124,6 +188,13 @@
   text-align: center;
 }
 
+.room-cell:disabled{
+  color: black;
+}
+.room-cell:focus{
+  border-radius: 0px;
+}
+
 input:disabled {
   background: #ffffff;
 }
@@ -153,6 +224,20 @@ input:disabled {
   background-color: #9470ce;
 }
 
+.current-player{
+  width: 95%;
+  height: 15%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.5px groove #ffffff1a;
+  border-radius: 8px;
+  margin-top: 4%;
+  box-shadow: 0px 5px rgba(0, 0, 0, 0.103);
+  background-color: #aa75ff;
+}
+
 .score-username {
   justify-self: start;
   padding: 5%;
@@ -177,7 +262,7 @@ input:disabled {
   box-shadow: 0px 5px rgba(0, 0, 0, 0.103);
   border: 1.5px groove #ffffff1a;
   border-radius: 10px;
-  overflow-y: hidden;
+  overflow: auto;
 }
 
 .chats-container {
@@ -191,6 +276,7 @@ input:disabled {
   margin-right: 2%;
   overflow-y: scroll;
   scrollbar-width: none;
+
 }
 
 .chats-container::-webkit-scrollbar {
@@ -232,14 +318,14 @@ input:disabled {
 .single-chat {
   width: 99%;
   margin-top: 2%;
-  display: flex;
-  flex-direction: row;
+  display: inline;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   /*background-color: #f3f3f3;*/
   /*box-shadow: 0px 2.5px rgba(0, 0, 0, 0.103);
     border: 1.5px groove #ffffff1a;*/
-  font-size: 15px;
+  font-size: 14px;
+  color: white;
 }
 
 .text {

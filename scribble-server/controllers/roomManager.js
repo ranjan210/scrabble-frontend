@@ -1,8 +1,5 @@
 const { globalAgent } = require("http");
-const mongoose = require("mongoose");
 const config = require("../config");
-const room = require("../models/roomModel");
-const mongoUrl = config.mongo_url;              
 
 
 exports.newRoom = (req, res) => {

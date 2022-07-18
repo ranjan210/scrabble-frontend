@@ -1,4 +1,4 @@
 module.exports = {
-    API_URL : "http://localhost:3030",
-    IO_URL : "http://localhost:3030"
+    API_URL : "https://young-gorge-62656.herokuapp.com",
+    IO_URL : "https://young-gorge-62656.herokuapp.com"
 }

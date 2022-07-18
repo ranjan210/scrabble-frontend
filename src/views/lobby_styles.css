@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Sacramento&display=swap");
+
+
 .form-lobby{
   color: rgb(141, 30, 245);
   height: 60%;
@@ -15,9 +18,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
-  width: 30%;
-  background-color: rgba(0, 0, 0, 0.068);
+  height: 70%;
+  width: 25%;
+  background-color: #9470ce;
+  box-shadow: 0px 5px rgba(0, 0, 0, 0.103);
+  border: 1.5px groove #ffffff1a;
+  border-radius: 10px;
+}
+
+.lobby-form-small{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 55%;
+  width: 25%;
+  background-color: #9470ce;
+  box-shadow: 0px 5px rgba(0, 0, 0, 0.103);
+  border: 1.5px groove #ffffff1a;
   border-radius: 10px;
 }
 
@@ -27,12 +44,12 @@
   align-items: center;
   width: 100%;
   height: 80%;
-
+  margin-top: 5%;
 }
 
 .input-box{
     width: 80%;
-    height: 15%;
+    height: 40px;
     border-radius: 8px;
     margin-bottom: 8%;
     padding-left: 2%;
@@ -41,25 +58,29 @@
     background-color: white;
 }
 
-.row-logo{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    font-size: 30px;
-    color: white;
-}
-
-
 .join-button{
   width: 80%;
-  height: 20%;
-  margin-top:4%;
+  height:50px;
+  margin-top:1%;
   background-color: white;
   color: rgb(141, 30, 245);
   outline: none;
   border: none;
   font-size: 20px;
   font-family: inherit;
+  border-radius: 10px;
 }
+
+.row-logo{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2%;
+    align-items: center;
+    align-content: center;
+    font-size: 35px;
+    font-family: "Sacramento";
+    color: white;
+}
+
+

@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { isObject } = require("util");
 const testArr = []
 
 for (let l = 0; l < 81; l++) {
@@ -13,6 +12,7 @@ exports.checkScore = async (val, pos, id_room, callbackfunc) => {
     const rowScore = await checkRow(id_room, pos);
     const colScore = await checkCol(id_room, pos);
     score = parseInt(rowScore) + parseInt(colScore);
+    console.log(rowScore + ":" + colScore)
     callbackfunc(score)
 }
 
@@ -41,10 +41,8 @@ async function checkRow(id_room, pos) {
             rowArr.push(i);
         }
     }
-    console.log(rowArr);
 
     const index = rowArr.indexOf(posNum)
-    console.log(index)
     // j is the current starting point
 
     for (let j = 0; j < 9; j++) {
@@ -57,7 +55,10 @@ async function checkRow(id_room, pos) {
                 // a goes from current starting point to current end points
                 for (let a = j; a <= k; a++) {
                     const letter = global[id_room].grid[rowArr[a]];
-                    if (letter != null) { word += letter; }
+                    if (letter != null) {
+                        if (letter == "") { break; }
+                        word += letter;
+                    }
                 }
                 words.push(word)
 
@@ -71,7 +72,11 @@ async function checkRow(id_room, pos) {
                 let word = "";
                 for (let a = index; a <= k; a++) {
                     const letter = global[id_room].grid[rowArr[a]];
-                    if (letter != null) { word += letter; }
+                    if (letter != null) {
+                        if (letter == "") { break; }
+                        word += letter;
+                    }
+
                 }
                 words.push(word)
 
@@ -82,20 +87,18 @@ async function checkRow(id_room, pos) {
     }
     let maxScore = 0;
     let wordToUse = ""
-    console.log(words)
     for (const word of words) {
+        if(global[id_room].usedWords.includes(word)){
+            continue;
+        }
         const newS = await checkWord("twl06.txt", word);
         if (newS > maxScore) {
-            console.log("Word: " + word + ": " + newS)
             maxScore = newS
-            if (wordToUse != "") {
                 wordToUse = word
 
-            }
         }
     }
     global[id_room].usedWords.push(wordToUse)
-    console.log("max-row: " + maxScore)
     return maxScore;
 }
 
@@ -106,7 +109,7 @@ async function checkCol(id_room, pos) {
     let colArr = []
     const words = [];
     for (let i = 0; i <= 81; i++) {
-        if (parseInt(i / 9) == rem) {
+        if (parseInt(i % 9) == rem) {
             colArr.push(i);
         }
     }
@@ -124,9 +127,16 @@ async function checkCol(id_room, pos) {
                 // a goes from current starting point to current end points
                 for (let a = j; a <= k; a++) {
                     const letter = global[id_room].grid[colArr[a]];
-                    if (letter != null) { word += letter; }
+                    console.log("Letter:" + letter);
+
+                    if (letter != null) {
+                        if (letter == "") { break; }
+                        word += letter;
+                    }
+
                 }
                 words.push(word)
+                console.log("Word: " + word);
 
             }
         }
@@ -138,9 +148,14 @@ async function checkCol(id_room, pos) {
                 let word = "";
                 for (let a = index; a <= k; a++) {
                     const letter = global[id_room].grid[colArr[a]];
-                    if (letter != null) { word += letter; }
+                    console.log("Letter:" + letter);
+                    if (letter != null) {
+                        if (letter == "") { break; }
+                        word += letter;
+                    }
                 }
                 words.push(word)
+                console.log("Word: " + word);
 
             }
             break;
@@ -150,15 +165,18 @@ async function checkCol(id_room, pos) {
 
     let maxScore = 0;
     let wordToUse = ""
-
+    console.log(words);
     for (const word of words) {
+        if(global[id_room].usedWords.includes(word)){
+            continue;
+        }
+
         const newS = await checkWord("twl06.txt", word);
         if (newS > maxScore) {
+            console.log("Word: " + word + ": " + newS)
             maxScore = newS
-            if (wordToUse != "") {
                 wordToUse = word
-
-            }
+            
         }
     }
     global[id_room].usedWords.push(wordToUse)

@@ -34,6 +34,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.post("/room", roomManager.newRoom);
 app.post("/joinroom", roomManager.joinRoom);
 app.post("/getboard", roomManager.sendBoard);
+
 server.listen(PORT, () => {
   console.log("Server Started");
 })
@@ -44,7 +45,6 @@ io.on("connection", (socket) => {
     socket.username = username;
     socket.join(roomId)
     socket.to(roomId).emit("addPlayer",username)
-    console.log("socket: " + socket.username)
   })
 
   socket.on("sendMessage", (message, roomId) => {
@@ -53,7 +53,6 @@ io.on("connection", (socket) => {
 
   socket.on("updateGrid", (roomId, val, pos) => {
 
-    console.log("room: " + roomId + ":" + val)
 
 
     if (global.roomIds.includes(roomId)) {
@@ -70,7 +69,6 @@ io.on("connection", (socket) => {
           }
         });
 
-        console.log(global[roomId])
         global[roomId].turn += 1;
         if (global[roomId].turn > global[roomId].players.length - 1) {
           global[roomId].turn = 0;
@@ -86,7 +84,7 @@ io.on("connection", (socket) => {
           }
         }
 
-        io.to(roomId).emit("updategrid", pos, val,thisUser,myscore);
+        io.to(roomId).emit("updategrid", pos, val,thisUser,myscore,global[roomId].turn);
       })
 
 
