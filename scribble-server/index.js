@@ -22,7 +22,6 @@ const io = new Server(server, {
 const corsOptions = {
   origin: "*",
   methods: ["GET", "POST"],
-
 }
 app.use(cors(corsOptions))
 
@@ -30,11 +29,14 @@ global.roomIds = [];
 app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-
+app.get("/",(req,res)=>{
+  res.send("Backend is Live")
+})
 app.post("/room", roomManager.newRoom);
 app.post("/joinroom", roomManager.joinRoom);
 app.post("/getboard", roomManager.sendBoard);
 
+ 
 server.listen(PORT, () => {
   console.log("Server Started");
 })
